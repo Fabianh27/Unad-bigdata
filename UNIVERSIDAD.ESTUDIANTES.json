@@ -1,3 +1,18 @@
-[{
-  "total_cars": 1
-}]
+db.getCollection('ESTUDIANTES').aggregate(
+  [
+    {
+      $group: {
+        _id: '$Brand',
+        avgMileage: { $avg: '$Mileage' }
+      }
+    },
+    {
+      $group: {
+        _id: '$Brand',
+        totalMileage: { $sum: '$Mileage' }
+      }
+    },
+    { $count: 'total_cars' }
+  ],
+  { maxTimeMS: 60000, allowDiskUse: true }
+);
